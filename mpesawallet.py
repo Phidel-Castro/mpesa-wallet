@@ -105,11 +105,15 @@ def main():
         name = st.text_input("Enter your name", "")
         email = st.text_input("Enter your email", "")
         password = st.text_input("Enter your password", "", type="password")
+        confirm_password = st.text_input("Confirm your password", "", type="password")
         if st.button("Sign Up"):
-            if name and email and password:
-                st.session_state.name = name
-                st.session_state.email = email
-                st.query_params.update({"page": "main", "name": name, "email": email})
+            if name and email and password and confirm_password:
+                if password == confirm_password:
+                    st.session_state.name = name
+                    st.session_state.email = email
+                    st.query_params.update({"page": "main", "name": name, "email": email})
+                else:
+                    st.error("Passwords do not match. Please try again.")
     elif page == "main":
         name = st.query_params.get("name", "User")
         email = st.query_params.get("email", "")
@@ -119,7 +123,7 @@ def main():
         st.markdown('<h1 class="main-title">💰 Mpesa-Wallet Interface 💳</h1>', unsafe_allow_html=True)
         
         # Display Current Balance
-        st.markdown(f'<div class="balance-box">Previous Balance: <br> <span style="color: #4CAF50;">KES {st.session_state.balance}</span></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="balance-box">Current Balance: <br> <span style="color: #4CAF50;">KES {st.session_state.balance}</span></div>', unsafe_allow_html=True)
         
         st.write("")  # Spacer
         
