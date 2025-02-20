@@ -1,89 +1,46 @@
 import streamlit as st
-import streamlit.components.v1 as components
 
-html_code = """
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+# Custom CSS for Styling
+st.markdown("""
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            margin: 0;
-            padding: 50px;
-            background: linear-gradient(to right, #4a90e2, #357abd);
-            color: white;
-            animation: fadeIn 1.5s ease-in-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .container {
-            width: 350px;
-            margin: auto;
-        }
-        .card {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            color: black;
-            transition: transform 0.3s;
-        }
-        .card:hover {
-            transform: scale(1.05);
-        }
-        input, button {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-        }
-        button {
-            background: #4a90e2;
-            color: white;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background: #357abd;
-        }
+    body {
+        background-color: #f4f4f4;
+    }
+    .main-title {
+        text-align: center;
+        color: #4CAF50;
+        font-size: 30px;
+        font-weight: bold;
+    }
+    .balance-box {
+        background: #fff;
+        padding: 15px;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .btn-custom {
+        background-color: #4CAF50;
+        color: white;
+        padding: 8px 15px;
+        font-size: 18px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+    .btn-custom:hover {
+        background-color: #388E3C;
+    }
     </style>
-</head>
-<body>
-    <h1>Welcome to Our Platform</h1>
-    <p>Experience seamless login and signup.</p>
-    <div class="container">
-        <div id="login-page" class="card">
-            <h2>Login</h2>
-            <input type="text" id="login-name" placeholder="Name" required>
-            <input type="email" id="login-email" placeholder="Email" required>
-            <input type="password" id="login-password" placeholder="Password" required>
-            <button onclick="window.location.href='/?page=main&name='+document.getElementById('login-name').value">Login</button>
-            <p><a href="#" onclick="switchForm('signup')">Don't have an account? Sign up</a></p>
-        </div>
-        <div id="signup-page" class="card" style="display:none;">
-            <h2>Sign Up</h2>
-            <input type="text" id="signup-name" placeholder="Name" required>
-            <input type="email" id="signup-email" placeholder="Email" required>
-            <input type="password" id="signup-password" placeholder="Password" required>
-            <button onclick="window.location.href='/?page=main&name='+document.getElementById('signup-name').value">Sign Up</button>
-            <p><a href="#" onclick="switchForm('login')">Already have an account? Login</a></p>
-        </div>
-    </div>
-    <script>
-        function switchForm(formId) {
-            document.getElementById('login-page').style.display = formId === 'login' ? 'block' : 'none';
-            document.getElementById('signup-page').style.display = formId === 'signup' ? 'block' : 'none';
-        }
-    </script>
-</body>
-</html>
-"""
+""", unsafe_allow_html=True)
+
+# Initialize session state
+if "balance" not in st.session_state:
+    st.session_state.balance = 15000  # Initial balance
 
 def main():
     page = st.query_params.get("page", "welcome")
@@ -91,44 +48,50 @@ def main():
     
     if page == "welcome":
         st.markdown("""
-            <h1 style='text-align: center; color: #4a90e2; animation: fadeIn 1.5s;'>Welcome to Our Platform</h1>
+            <h1 style='text-align: center; color: #4a90e2;'>Welcome to Our Platform</h1>
             <p style='text-align: center;'>Experience seamless login and signup.</p>
-            <div style='display: flex; justify-content: center; margin-top: 20px;'>
-                <a href='/?page=login'><button style='padding: 15px 25px; background: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 18px; transition: transform 0.3s;' onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><b>Get Started</b></button></a>
+            <div style='display: flex; justify-content: center;'>
+                <a href='/?page=login'><button style='padding: 10px 20px; background: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer;'>Get Started</button></a>
             </div>
         """, unsafe_allow_html=True)
     elif page == "main":
-        st.success(f"Welcome to the Mpesa-Wallet , {name}! 🎉")
+        st.success(f"Welcome {name}! 🎉")
         
-        st.markdown("""
-            <style>
-            body {
-                background-color: #f4f4f4;
-            }
-            .main-title {
-                text-align: center;
-                color: #4CAF50;
-                font-size: 30px;
-                font-weight: bold;
-            }
-            .balance-box {
-                background: #fff;
-                padding: 15px;
-                border-radius: 10px;
-                text-align: center;
-                font-size: 22px;
-                font-weight: bold;
-                color: #333;
-                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
-            }
-            </style>
-        """, unsafe_allow_html=True)
-
-        if "balance" not in st.session_state:
-            st.session_state.balance = 15000
-
+        # Display Title
         st.markdown('<h1 class="main-title">💰 Mpesa-Wallet Interface 💳</h1>', unsafe_allow_html=True)
+        
+        # Display Current Balance
         st.markdown(f'<div class="balance-box">Current Balance: <br> <span style="color: #4CAF50;">KES {st.session_state.balance}</span></div>', unsafe_allow_html=True)
+        
+        st.write("")  # Spacer
+        
+        # Create Layout with Columns
+        col1, col2 = st.columns(2)
+        
+        # Deposit Section
+        with col1:
+            st.subheader("Deposit Money")
+            deposit_amount = st.number_input("Enter amount to deposit", min_value=0.0, step=100.0)
+            if st.button("Deposit", key="deposit", help="Click to deposit money"):
+                if deposit_amount > 0:
+                    st.session_state.balance += deposit_amount
+                    st.success(f"You have deposited KES {deposit_amount}. Your new balance is: KES {st.session_state.balance}")
+                else:
+                    st.error("Invalid deposit amount.")
+        
+        # Withdraw Section
+        with col2:
+            st.subheader("Withdraw Money")
+            withdraw_amount = st.number_input("Enter amount to withdraw", min_value=0.0, step=100.0)
+            if st.button("Withdraw", key="withdraw", help="Click to withdraw money"):
+                if 0 < withdraw_amount <= st.session_state.balance:
+                    st.session_state.balance -= withdraw_amount
+                    st.success(f"You have withdrawn KES {withdraw_amount}. Your remaining balance is: KES {st.session_state.balance}")
+                else:
+                    st.error("Invalid withdrawal amount or insufficient funds.")
+        
+        # Display Updated Balance
+        st.markdown(f'<div class="balance-box">Updated Balance: <br> <span style="color: #4CAF50;">KES {st.session_state.balance}</span></div>', unsafe_allow_html=True)
     else:
         components.html(html_code, height=600)
 
