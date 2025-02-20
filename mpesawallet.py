@@ -36,6 +36,21 @@ st.markdown("""
     .btn-custom:hover {
         background-color: #388E3C;
     }
+    .theme-toggle {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        padding: 8px 15px;
+        background-color: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    [data-theme="dark"] {
+        background-color: #1e1e1e;
+        color: white;
+    }
     </style>
 """, unsafe_allow_html=True)
 
@@ -46,9 +61,21 @@ if "name" not in st.session_state:
     st.session_state.name = ""
 if "email" not in st.session_state:
     st.session_state.email = ""
+if "theme" not in st.session_state:
+    st.session_state.theme = "light"
+
+def toggle_theme():
+    if st.session_state.theme == "light":
+        st.session_state.theme = "dark"
+        st.markdown('<script>document.body.setAttribute("data-theme", "dark");</script>', unsafe_allow_html=True)
+    else:
+        st.session_state.theme = "light"
+        st.markdown('<script>document.body.removeAttribute("data-theme");</script>', unsafe_allow_html=True)
 
 def main():
     page = st.query_params.get("page", "welcome")
+    
+    st.markdown('<button class="theme-toggle" onclick="window.location.reload();">Toggle Theme</button>', unsafe_allow_html=True)
     
     if page == "welcome":
         st.markdown("""
@@ -64,8 +91,9 @@ def main():
         """, unsafe_allow_html=True)
         name = st.text_input("Enter your name", "")
         email = st.text_input("Enter your email", "")
+        password = st.text_input("Enter your password", "", type="password")
         if st.button("Login"):
-            if name and email:
+            if name and email and password:
                 st.session_state.name = name
                 st.session_state.email = email
                 st.query_params.update({"page": "main", "name": name, "email": email})
