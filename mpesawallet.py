@@ -44,6 +44,8 @@ if "balance" not in st.session_state:
     st.session_state.balance = 15000  # Initial balance
 if "name" not in st.session_state:
     st.session_state.name = ""
+if "email" not in st.session_state:
+    st.session_state.email = ""
 
 def main():
     page = st.query_params.get("page", "welcome")
@@ -61,21 +63,27 @@ def main():
             <h1 style='text-align: center; color: #4a90e2;'>Login</h1>
         """, unsafe_allow_html=True)
         name = st.text_input("Enter your name", "")
+        email = st.text_input("Enter your email", "")
         if st.button("Login"):
-            if name:
+            if name and email:
                 st.session_state.name = name
-                st.experimental_set_query_params(page="main", name=name)
+                st.session_state.email = email
+                st.query_params.update({"page": "main", "name": name, "email": email})
     elif page == "signup":
         st.markdown("""
             <h1 style='text-align: center; color: #4a90e2;'>Sign Up</h1>
         """, unsafe_allow_html=True)
         name = st.text_input("Enter your name", "")
+        email = st.text_input("Enter your email", "")
+        password = st.text_input("Enter your password", "", type="password")
         if st.button("Sign Up"):
-            if name:
+            if name and email and password:
                 st.session_state.name = name
-                st.experimental_set_query_params(page="main", name=name)
+                st.session_state.email = email
+                st.query_params.update({"page": "main", "name": name, "email": email})
     elif page == "main":
         name = st.query_params.get("name", "User")
+        email = st.query_params.get("email", "")
         st.success(f"Welcome {name}! 🎉")
         
         # Display Title
