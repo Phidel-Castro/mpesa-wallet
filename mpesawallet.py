@@ -56,7 +56,7 @@ st.markdown("""
 
 # Initialize session state
 if "balance" not in st.session_state:
-    st.session_state.balance = 15000  # Initial balance
+    st.session_state.balance = 0  # Initial balance set to 0
 if "name" not in st.session_state:
     st.session_state.name = ""
 if "email" not in st.session_state:
@@ -97,9 +97,7 @@ def main():
                 st.session_state.name = name
                 st.session_state.email = email
                 st.query_params.update({"page": "main", "name": name, "email": email})
-        st.markdown("""
-            <p style='text-align: center;'>Don't have an account? <a href='/?page=signup' style='color: #4a90e2;'>Sign Up</a></p>
-        """, unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center;'>Don't have an account? <a href='/?page=signup'>Sign Up</a></p>", unsafe_allow_html=True)
     elif page == "signup":
         st.markdown("""
             <h1 style='text-align: center; color: #4a90e2;'>Sign Up</h1>
