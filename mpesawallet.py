@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 
 # Custom CSS for Styling
 st.markdown("""
@@ -42,10 +43,57 @@ st.markdown("""
 if "balance" not in st.session_state:
     st.session_state.balance = 15000  # Initial balance
 
+# Define the Login/Signup HTML Page
+html_code = """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+        .container {
+            width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+        }
+        button {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #357abd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Enter Name">
+        <button onclick="window.location.href='/?page=main&name=' + document.getElementById('username').value;">Login</button>
+    </div>
+</body>
+</html>
+"""
+
 def main():
     page = st.query_params.get("page", "welcome")
     name = st.query_params.get("name", "User")
-    
+
     if page == "welcome":
         st.markdown("""
             <h1 style='text-align: center; color: #4a90e2;'>Welcome to Our Platform</h1>
@@ -54,20 +102,21 @@ def main():
                 <a href='/?page=login'><button style='padding: 10px 20px; background: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer;'>Get Started</button></a>
             </div>
         """, unsafe_allow_html=True)
+
     elif page == "main":
         st.success(f"Welcome {name}! 🎉")
-        
+
         # Display Title
         st.markdown('<h1 class="main-title">💰 Mpesa-Wallet Interface 💳</h1>', unsafe_allow_html=True)
-        
+
         # Display Current Balance
         st.markdown(f'<div class="balance-box">Current Balance: <br> <span style="color: #4CAF50;">KES {st.session_state.balance}</span></div>', unsafe_allow_html=True)
-        
+
         st.write("")  # Spacer
-        
+
         # Create Layout with Columns
         col1, col2 = st.columns(2)
-        
+
         # Deposit Section
         with col1:
             st.subheader("Deposit Money")
@@ -78,7 +127,7 @@ def main():
                     st.success(f"You have deposited KES {deposit_amount}. Your new balance is: KES {st.session_state.balance}")
                 else:
                     st.error("Invalid deposit amount.")
-        
+
         # Withdraw Section
         with col2:
             st.subheader("Withdraw Money")
@@ -89,11 +138,12 @@ def main():
                     st.success(f"You have withdrawn KES {withdraw_amount}. Your remaining balance is: KES {st.session_state.balance}")
                 else:
                     st.error("Invalid withdrawal amount or insufficient funds.")
-        
+
         # Display Updated Balance
         st.markdown(f'<div class="balance-box">Updated Balance: <br> <span style="color: #4CAF50;">KES {st.session_state.balance}</span></div>', unsafe_allow_html=True)
-    else:
-        components.html(html_code, height=600)
+
+    elif page == "login":
+        components.html(html_code, height=400)
 
 if __name__ == "__main__":
     main()
