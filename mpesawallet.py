@@ -97,6 +97,9 @@ def main():
                 st.session_state.name = name
                 st.session_state.email = email
                 st.query_params.update({"page": "main", "name": name, "email": email})
+        st.markdown("""
+            <p style='text-align: center;'>Don't have an account? <a href='/?page=signup' style='color: #4a90e2;'>Sign Up</a></p>
+        """, unsafe_allow_html=True)
     elif page == "signup":
         st.markdown("""
             <h1 style='text-align: center; color: #4a90e2;'>Sign Up</h1>
