@@ -15,6 +15,11 @@ html_code = """
             padding: 50px;
             background: linear-gradient(to right, #4a90e2, #357abd);
             color: white;
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .container {
             width: 350px;
@@ -26,6 +31,10 @@ html_code = """
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             color: black;
+            transition: transform 0.3s;
+        }
+        .card:hover {
+            transform: scale(1.05);
         }
         input, button {
             width: 100%;
@@ -38,6 +47,7 @@ html_code = """
             background: #4a90e2;
             color: white;
             cursor: pointer;
+            transition: background 0.3s;
         }
         button:hover {
             background: #357abd;
@@ -81,15 +91,44 @@ def main():
     
     if page == "welcome":
         st.markdown("""
-            <h1 style='text-align: center; color: #4a90e2;'>Welcome to Our Platform</h1>
+            <h1 style='text-align: center; color: #4a90e2; animation: fadeIn 1.5s;'>Welcome to Our Platform</h1>
             <p style='text-align: center;'>Experience seamless login and signup.</p>
-            <div style='display: flex; justify-content: center;'>
-                <a href='/?page=login'><button style='padding: 10px 20px; background: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer;'>Get Started</button></a>
+            <div style='display: flex; justify-content: center; margin-top: 20px;'>
+                <a href='/?page=login'><button style='padding: 15px 25px; background: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer; font-size: 18px; transition: transform 0.3s;' onmouseover="this.style.transform='scale(1.1)'" onmouseout="this.style.transform='scale(1)'"><b>Get Started</b></button></a>
             </div>
         """, unsafe_allow_html=True)
     elif page == "main":
-        st.success(f"Welcome to the Main Page, {name}! 🎉")
-        st.write("Here is your main application content.")
+        st.success(f"Welcome to the Mpesa-Wallet , {name}! 🎉")
+        
+        st.markdown("""
+            <style>
+            body {
+                background-color: #f4f4f4;
+            }
+            .main-title {
+                text-align: center;
+                color: #4CAF50;
+                font-size: 30px;
+                font-weight: bold;
+            }
+            .balance-box {
+                background: #fff;
+                padding: 15px;
+                border-radius: 10px;
+                text-align: center;
+                font-size: 22px;
+                font-weight: bold;
+                color: #333;
+                box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+            }
+            </style>
+        """, unsafe_allow_html=True)
+
+        if "balance" not in st.session_state:
+            st.session_state.balance = 15000
+
+        st.markdown('<h1 class="main-title">💰 Mpesa-Wallet Interface 💳</h1>', unsafe_allow_html=True)
+        st.markdown(f'<div class="balance-box">Current Balance: <br> <span style="color: #4CAF50;">KES {st.session_state.balance}</span></div>', unsafe_allow_html=True)
     else:
         components.html(html_code, height=600)
 
