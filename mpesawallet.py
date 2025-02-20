@@ -80,7 +80,7 @@ def main():
     if page == "welcome":
         st.markdown("""
             <h1 style='text-align: center; color: #4a90e2;'>Welcome to Mpesa Wallet</h1>
-            <p style='text-align: center;'>.</p>
+            <p style='text-align: center;'></p>
             <div style='display: flex; justify-content: center;'>
                 <a href='/?page=login'><button style='padding: 10px 20px; background: #4a90e2; color: white; border: none; border-radius: 5px; cursor: pointer;'>Get Started</button></a>
             </div>
