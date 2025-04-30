@@ -64,13 +64,22 @@ if "email" not in st.session_state:
 if "theme" not in st.session_state:
     st.session_state.theme = "light"
 
-def toggle_theme():
+if st.button("Toggle Theme", key="theme_toggle"):
     if st.session_state.theme == "light":
         st.session_state.theme = "dark"
-        st.markdown('<script>document.body.setAttribute("data-theme", "dark");</script>', unsafe_allow_html=True)
     else:
         st.session_state.theme = "light"
-        st.markdown('<script>document.body.removeAttribute("data-theme");</script>', unsafe_allow_html=True)
+    st.rerun()
+    
+st.markdown(f"""
+    <style>
+    body {{
+        background-color: {'#1e1e1e' if st.session_state.theme == 'dark' else '#f4f4f4'};
+        color: {'white' if st.session_state.theme == 'dark' else 'black'};
+    }}
+    /* Rest of your styles */
+    </style>
+""", unsafe_allow_html=True)
 
 def main():
     page = st.query_params.get("page", "welcome")
